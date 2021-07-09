@@ -1,0 +1,285 @@
+
+window.onload = function() {
+  // Build a system
+  var url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  var options = {
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "QB Engine",
+      "version": "0.1.0",
+      "description": "This is a REST API server to server routes for various integration with the test creation conduction and analysis with MySQL"
+    },
+    "contact": {
+      "url": "https://speedlabs.in"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Development server"
+      }
+    ],
+    "paths": {
+      "/questions": {
+        "get": {
+          "tags": [
+            "questions"
+          ],
+          "summary": "Retrive a list of Question IDs on the basis of filters.",
+          "description": "Filter the questions sectionwise topicwise and levelwise",
+          "requestBody": {
+            "required": true,
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "where": {
+                      "type": "object",
+                      "properties": {
+                        "section": {
+                          "type": "string",
+                          "description": "Name of section.",
+                          "example": "NEET"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Topic name.",
+                          "example": "Physics"
+                        }
+                      }
+                    },
+                    "take": {
+                      "type": "integer",
+                      "description": "number of questions",
+                      "example": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of questions.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "questions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "ques_id": {
+                              "type": "integer",
+                              "description": "The questions ID.",
+                              "example": 23
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/questions/details": {
+        "get": {
+          "tags": [
+            "questions"
+          ],
+          "summary": "Get details of the questions.",
+          "description": "Get all the details of questions."
+        }
+      },
+      "/questions/addnew": {
+        "post": {
+          "tags": [
+            "questions"
+          ],
+          "summary": "Post new questions",
+          "description": "Post new questions"
+        }
+      },
+      "/questions/": {
+        "put": {
+          "tags": [
+            "questions"
+          ],
+          "summary": "Update questions",
+          "description": "Update the questions"
+        },
+        "delete": {
+          "tags": [
+            "questions"
+          ],
+          "summary": "Delete questions",
+          "description": "Delete questions"
+        }
+      },
+      "/results": {
+        "get": {
+          "tags": [
+            "results"
+          ],
+          "summary": "Get results of tests.",
+          "description": "Get results of tests on  various filters."
+        }
+      },
+      "/results/addnew": {
+        "post": {
+          "tags": [
+            "results"
+          ],
+          "summary": "Post new results",
+          "description": "Post new results"
+        }
+      },
+      "/results/": {
+        "put": {
+          "tags": [
+            "results"
+          ],
+          "summary": "Update result/s",
+          "description": "Update results"
+        },
+        "delete": {
+          "tags": [
+            "results"
+          ],
+          "summary": "Delete results",
+          "description": "Delete results"
+        }
+      },
+      "/sections": {
+        "get": {
+          "tags": [
+            "sections"
+          ],
+          "summary": "Get sections of tests.",
+          "description": "Get sections of tests on  various filters."
+        }
+      },
+      "/sections/addnew": {
+        "post": {
+          "tags": [
+            "sections"
+          ],
+          "summary": "Post new sections",
+          "description": "Post new sections"
+        }
+      },
+      "/sections/": {
+        "put": {
+          "tags": [
+            "sections"
+          ],
+          "summary": "Update sections",
+          "description": "Update sections"
+        },
+        "delete": {
+          "tags": [
+            "sections"
+          ],
+          "summary": "Delete sections",
+          "description": "Delete sections"
+        }
+      },
+      "/:sectionId/topics": {
+        "get": {
+          "tags": [
+            "topics"
+          ],
+          "summary": "Get topics of a section.",
+          "description": "Get topics of tests on  various filters."
+        }
+      },
+      "/:sectionId/topics/addnew": {
+        "post": {
+          "tags": [
+            "topics"
+          ],
+          "summary": "Post new topics",
+          "description": "Post new topics"
+        }
+      },
+      "/:sectionId/topics/": {
+        "put": {
+          "tags": [
+            "topics"
+          ],
+          "summary": "Update topics",
+          "description": "Update topics"
+        },
+        "delete": {
+          "tags": [
+            "topics"
+          ],
+          "summary": "Delete topics",
+          "description": "Delete topics"
+        }
+      }
+    },
+    "components": {},
+    "tags": [
+      {
+        "name": "questions"
+      },
+      {
+        "name": "results"
+      },
+      {
+        "name": "sections"
+      },
+      {
+        "name": "topics"
+      }
+    ]
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  var urls = options.swaggerUrls
+  var customOptions = options.customOptions
+  var spec1 = options.swaggerDoc
+  var swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (var attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  var ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.oauth) {
+    ui.initOAuth(customOptions.oauth)
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+
+  window.ui = ui
+}
