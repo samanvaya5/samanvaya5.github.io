@@ -1,0 +1,760 @@
+
+window.onload = function() {
+  // Build a system
+  var url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  var options = {
+  "swaggerDoc": {
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "OnlineTest",
+      "description": "Online Test Platform APIs"
+    },
+    "host": "localhost:1234",
+    "basePath": "/",
+    "tags": [],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/results/": {
+        "post": {
+          "tags": [
+            "Result"
+          ],
+          "summary": "Add new result of a test",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "result",
+              "in": "body",
+              "description": "Adding new result.",
+              "schema": {
+                "$ref": "#/definitions/StudentResult"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Add new result",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Added Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/results/{testId}/{studentId}": {
+        "get": {
+          "tags": [
+            "Result"
+          ],
+          "summary": "Result of a student for a test",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testId",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "description": "Id of the test",
+              "require": true
+            },
+            {
+              "name": "studentId",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "description": "Id of the student",
+              "require": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Result for the given test id and student id",
+              "schema": {
+                "$ref": "#/definitions/StudentResult"
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Result"
+          ],
+          "summary": "Update result for test",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testId",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "description": "Id of the test",
+              "require": true
+            },
+            {
+              "name": "studentId",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "description": "Id of the student",
+              "require": true
+            },
+            {
+              "name": "res",
+              "in": "body",
+              "description": "Update new result.",
+              "schema": {
+                "$ref": "#/definitions/StudentResult"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Update Result",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Updated Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Result"
+          ],
+          "summary": "Delete result of the test",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "studentId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Delete a result for the given result id",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Deleted Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/testSummary/{testId}/": {
+        "get": {
+          "tags": [
+            "TestSummary"
+          ],
+          "summary": "Get result Test Summary",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testId",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "description": "Id of the test",
+              "require": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Test Summary of the given test id",
+              "schema": {
+                "$ref": "#/definitions/TestSummaryGet"
+              }
+            }
+          }
+        }
+      },
+      "/test/": {
+        "post": {
+          "tags": [
+            "TestSummary"
+          ],
+          "summary": "Add new result of test",
+          "description": "",
+          "produces": [],
+          "parameters": [
+            {
+              "name": "testSummary",
+              "in": "body",
+              "description": "Add new test summary.",
+              "schema": {
+                "$ref": "#/definitions/TestSummary"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Add new test summary",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Added Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/test/{testID}": {
+        "put": {
+          "tags": [
+            "TestSummary"
+          ],
+          "summary": "Update Test Summary",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testID",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "testId",
+              "in": "path",
+              "description": "Update summary of a test.",
+              "type": "string"
+            },
+            {
+              "name": "testSummary",
+              "in": "body",
+              "description": "Update details.",
+              "schema": {
+                "$ref": "#/definitions/TestSummary"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Update test summary",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Updated Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "TestSummary"
+          ],
+          "summary": "Delete test summary",
+          "description": "",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "testID",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "testId",
+              "in": "path",
+              "description": "Delte test summary.",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Delete a test summary",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "res": {
+                    "type": "string",
+                    "example": "Deleted Successfully"
+                  }
+                },
+                "xml": {
+                  "name": "main"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "StudentResult": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "number",
+            "example": 12
+          },
+          "test_id": {
+            "type": "number",
+            "example": 34
+          },
+          "totalMarks": {
+            "type": "number",
+            "example": 60
+          },
+          "positiveMarks": {
+            "type": "number",
+            "example": 80
+          },
+          "negativeMarks": {
+            "type": "number",
+            "example": 20
+          },
+          "timeTaken": {
+            "type": "number",
+            "example": 8000
+          },
+          "orrectAnswers": {
+            "type": "number",
+            "example": 20
+          },
+          "wrongAnswers": {
+            "type": "number",
+            "example": 5
+          },
+          "questionDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "chosenOption": {
+                  "type": "array",
+                  "example": [
+                    1,
+                    3
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "answered": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "markForReview": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "visited": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "timer": {
+                  "type": "array",
+                  "example": [
+                    100,
+                    120,
+                    150
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "correct": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "required": [
+                "question_id",
+                "correct"
+              ]
+            }
+          },
+          "subjectDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "subject_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "answered": {
+                  "type": "number",
+                  "example": 12
+                },
+                "totalMarks": {
+                  "type": "number",
+                  "example": 12
+                },
+                "positiveMarks": {
+                  "type": "number",
+                  "example": 20
+                },
+                "negativeMarks": {
+                  "type": "number",
+                  "example": 8
+                },
+                "totalCorrect": {
+                  "type": "number",
+                  "example": 5
+                },
+                "totalIncorrect": {
+                  "type": "number",
+                  "example": 2
+                },
+                "notAnswered": {
+                  "type": "number",
+                  "example": 4
+                },
+                "notVisited": {
+                  "type": "number",
+                  "example": 3
+                },
+                "switchOver": {
+                  "type": "number",
+                  "example": 5
+                },
+                "totalTime": {
+                  "type": "number",
+                  "example": 2300
+                }
+              },
+              "required": [
+                "subject_id",
+                "answered",
+                "totalMarks",
+                "positiveMarks",
+                "negativeMarks",
+                "totalCorrect",
+                "totalIncorrect",
+                "notAnswered",
+                "notVisited",
+                "switchOver",
+                "totalTime"
+              ]
+            }
+          },
+          "warnings": {
+            "type": "object",
+            "properties": {
+              "electronicDevice": {
+                "type": "number",
+                "example": 12
+              },
+              "notVisible": {
+                "type": "number",
+                "example": 2
+              },
+              "book": {
+                "type": "number",
+                "example": 3
+              },
+              "moreThanPerson": {
+                "type": "number",
+                "example": 3
+              },
+              "notProperPosture": {
+                "type": "number",
+                "example": 5
+              }
+            }
+          }
+        },
+        "required": [
+          "student_id",
+          "test_id",
+          "totalMarks",
+          "positiveMarks",
+          "negativeMarks",
+          "timeTaken",
+          "orrectAnswers",
+          "wrongAnswers"
+        ]
+      },
+      "TestSummary": {
+        "type": "object",
+        "properties": {
+          "test_id": {
+            "type": "number",
+            "example": 34
+          },
+          "institue_id": {
+            "type": "number",
+            "example": 12
+          },
+          "reqPer": {
+            "type": "number",
+            "example": 35
+          },
+          "totalMarks": {
+            "type": "number",
+            "example": 180
+          },
+          "questionSummary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "subject": {
+                  "type": "string",
+                  "example": "Physics"
+                },
+                "difficultyLevel": {
+                  "type": "string",
+                  "example": "Easy"
+                }
+              }
+            }
+          },
+          "subjectSummary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "subject_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "subject_name": {
+                  "type": "string",
+                  "example": "Chemistry"
+                },
+                "totalMarks": {
+                  "type": "number",
+                  "example": 60
+                },
+                "totalQuestions": {
+                  "type": "number",
+                  "example": 20
+                }
+              }
+            }
+          }
+        }
+      },
+      "TestSummaryGet": {
+        "type": "object",
+        "properties": {
+          "highestMarks": {
+            "type": "number",
+            "example": 0
+          },
+          "meanMarks": {
+            "type": "number",
+            "example": 0
+          },
+          "totalStudents": {
+            "type": "number",
+            "example": 0
+          },
+          "test_id": {
+            "type": "number",
+            "example": 34
+          },
+          "institue_id": {
+            "type": "number",
+            "example": 12
+          },
+          "reqPer": {
+            "type": "number",
+            "example": 35
+          },
+          "totalMarks": {
+            "type": "number",
+            "example": 180
+          },
+          "questionSummary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "difficultyLevel": {
+                  "type": "string",
+                  "example": "Easy"
+                },
+                "studentsCorrect": {
+                  "type": "number",
+                  "example": 0
+                },
+                "studentsInCorrect": {
+                  "type": "number",
+                  "example": 0
+                },
+                "studentsLeft": {
+                  "type": "number",
+                  "example": 0
+                },
+                "topperTime": {
+                  "type": "number",
+                  "example": 0
+                },
+                "question_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "subject": {
+                  "type": "string",
+                  "example": "Physics"
+                }
+              }
+            }
+          },
+          "subjectSummary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "totalMarks": {
+                  "type": "number",
+                  "example": 60
+                },
+                "totalQuestions": {
+                  "type": "number",
+                  "example": 20
+                },
+                "highestMarks": {
+                  "type": "number",
+                  "example": 0
+                },
+                "meanMarks": {
+                  "type": "number",
+                  "example": 0
+                },
+                "subject_id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "subject_name": {
+                  "type": "string",
+                  "example": "Chemistry"
+                }
+              }
+            }
+          },
+          "__v": {
+            "type": "number",
+            "example": 0
+          }
+        }
+      }
+    }
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  var urls = options.swaggerUrls
+  var customOptions = options.customOptions
+  var spec1 = options.swaggerDoc
+  var swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (var attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  var ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.oauth) {
+    ui.initOAuth(customOptions.oauth)
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+
+  window.ui = ui
+}
